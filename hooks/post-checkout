@@ -1,0 +1,10 @@
+CWD=$(pwd)
+REPO=$(git rev-parse --show-toplevel)
+
+cd "$REPO";
+
+npm install
+bower install
+./node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update
+
+cd "$CWD"
