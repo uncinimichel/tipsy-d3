@@ -3,7 +3,7 @@ angular.module('graphsApp')
         'use strict';
         var createGrid = function (rows, cols, cells, element) {
                 //clear any reference of an old grid
-                $('svg').remove();
+                d3.select("svg").remove();
                 var dataModel = _createDataModel(rows, cols, cells),
                     grid = d3.select(element[0]).append('svg')
 //                        .attr('width', '600px')

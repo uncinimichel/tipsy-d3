@@ -30,30 +30,26 @@ server.listen(config.port, function () {
     console.log('Express server listening on port %d in %s mode', config.port, app.get('env'));
 });
 
-var games = [];
 io.on('connection', function (socket) {
-    socket.gameOfLife = new GameOfLife();
-    games.push(socket.gameOfLife);
     socket.on('tick', function () {
+        if (!socket.gameOfLife) {
+            return
+        }
         var cells = socket.gameOfLife.iterate();
+        console.log('Game tick');
         socket.emit('tick', {cells: cells, iteration: socket.gameOfLife.iteration});
     });
     socket.on('init', function (data) {
         var rows = data.rows,
             cols = data.cols,
-            name = data.name,
-            grid = socket.gameOfLife.generateRandom(rows, cols, name || 'tipsyD3');
+            name = data.name;
 
+        socket.gameOfLife = new GameOfLife();
+        var grid = socket.gameOfLife.generateRandom(rows, cols, name || 'tipsyD3');
+
+        console.log('Game init, iteration: ', socket.gameOfLife.iteration);
         socket.emit('init', {grid: grid});
     });
-
-    socket.on('print', function () {
-        _.each(games, function (game) {
-            console.log('###############');
-            game.drawCells(console.log)
-            console.log('###############');
-        })
-    })
 });
 
 // Expose app

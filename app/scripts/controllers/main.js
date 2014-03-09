@@ -42,6 +42,9 @@ angular.module('graphsApp')
         });
 
         $scope.$watch('speed', function () {
+            if (!$scope.isPlaying){
+                return
+            }
             $interval.cancel(tickPromise);
             tickPromise = $interval(tickInterval.cb, $scope.speed);
         })
