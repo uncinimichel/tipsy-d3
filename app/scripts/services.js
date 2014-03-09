@@ -1,5 +1,7 @@
 angular.module('graphsApp')
     .factory('socket', function ($rootScope) {
+        "use strict"
+
         var socket = io.connect();
         return {
             on: function (eventName, callback) {
@@ -16,7 +18,7 @@ angular.module('graphsApp')
                     $rootScope.$apply(function () {
                         if (callback) {
                             callback.apply(socket, args);
-                        }
+                        };
                     });
                 })
             }

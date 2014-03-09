@@ -1,17 +1,21 @@
 <div ng-include="'partials/navbar'"></div>
 
 
-<div d3-game-of-life cells="cells" rows="rows" cols="cols">
+<div class="row">
+    <button class="col-lg-12" ng-click="init()">
+        Init
+    </button>
+</div>
+<div class="row">
+    <button ng-show="isInit" class="col-lg-12" ng-click="play()">
+        <span ng-show="isPlaying" class="glyphicon glyphicon-pause"></span>
+        <span ng-show="!isPlaying" class="glyphicon glyphicon-play"></span>
+    </button>
+</div>
+<div class="tipsyD3 container" d3-game-of-life>
 
 </div>
-<button ng-click="init()">
-    Init
-</button>
-<button ng-click="play()">
-    Play
-</button>
-<button ng-click="pause()">
-    Pause
-</button>
+
+
 <div class="footer">
     <p>♥ from the Yeoman team</p></div>

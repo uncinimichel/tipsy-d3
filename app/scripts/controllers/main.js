@@ -15,28 +15,38 @@ angular.module('graphsApp')
             },
             tickPromise = null;
 
-        socket.on('init', function (data) {
-            $scope.grid = data.grid;
-            $scope.cells = data.grid.cells;
-            socket.on('tick', function (data) {
-                $scope.cells = data.cells;
-            });
+        $scope.rows = 50;
+        $scope.cols = 50;
 
-        })
+        $scope.isPlaying = false;
 
-        $scope.play = function () {
-            $interval.cancel(tickPromise);
-            tickPromise = $interval(tickInterval.cb, tickInterval.milli);
-        };
-        $scope.pause = function () {
-            $interval.cancel(tickPromise);
-        };
         $scope.init = function () {
             $interval.cancel(tickPromise);
-            $scope.rows = 20;
-            $scope.cols = 20;
             $scope.name = 'Ciao';
             socket.emit('init', {rows: $scope.rows, cols: $scope.cols, name: $scope.name});
+        };
+
+        socket.on('init', function (data) {
+            $scope.isInit = true;
+            $scope.$broadcast('init', {
+                rows: $scope.rows,
+                cols: $scope.cols,
+                cells: data.grid.cells
+            });
+            socket.on('tick', function (data) {
+                $scope.$broadcast('cellsUpdate', {cells: data.cells});
+            });
+
+        });
+
+        $scope.play = function () {
+            if ($scope.isPlaying) {
+                $interval.cancel(tickPromise);
+            } else {
+                $interval.cancel(tickPromise);
+                tickPromise = $interval(tickInterval.cb, tickInterval.milli);
+            }
+            $scope.isPlaying = !$scope.isPlaying;
         };
 
         window.socket = socket;
