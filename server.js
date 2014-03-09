@@ -35,8 +35,8 @@ io.on('connection', function (socket) {
     socket.gameOfLife = new GameOfLife();
     games.push(socket.gameOfLife);
     socket.on('tick', function () {
-        var cells = socket.gameOfLife.iteration();
-        socket.emit('tick', {cells: cells});
+        var cells = socket.gameOfLife.iterate();
+        socket.emit('tick', {cells: cells, iteration: socket.gameOfLife.iteration});
     });
     socket.on('init', function (data) {
         var rows = data.rows,

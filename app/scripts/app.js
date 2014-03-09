@@ -1,11 +1,12 @@
 'use strict';
 
 angular.module('graphsApp', [
-    'ngCookies',
-    'ngResource',
-    'ngSanitize',
-    'ngRoute'
-])
+        'ngCookies',
+        'ngResource',
+        'ngSanitize',
+        'ngRoute',
+        'vr.directives.slider'
+    ])
     .config(function ($routeProvider, $locationProvider) {
         $routeProvider
             .when('/', {

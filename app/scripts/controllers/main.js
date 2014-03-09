@@ -10,18 +10,19 @@ angular.module('graphsApp')
         var tickInterval = {
                 cb: function () {
                     socket.emit('tick');
-                },
-                milli: 1000
+                }
             },
             tickPromise = null;
 
         $scope.rows = 50;
         $scope.cols = 50;
+        $scope.iteration = 0;
+        $scope.speed = 1000;
 
-        $scope.isPlaying = false;
 
         $scope.init = function () {
             $interval.cancel(tickPromise);
+            $scope.isPlaying = false;
             $scope.name = 'Ciao';
             socket.emit('init', {rows: $scope.rows, cols: $scope.cols, name: $scope.name});
         };
@@ -35,16 +36,22 @@ angular.module('graphsApp')
             });
             socket.on('tick', function (data) {
                 $scope.$broadcast('cellsUpdate', {cells: data.cells});
+                $scope.iteration = data.iteration;
             });
 
         });
+
+        $scope.$watch('speed', function () {
+            $interval.cancel(tickPromise);
+            tickPromise = $interval(tickInterval.cb, $scope.speed);
+        })
 
         $scope.play = function () {
             if ($scope.isPlaying) {
                 $interval.cancel(tickPromise);
             } else {
                 $interval.cancel(tickPromise);
-                tickPromise = $interval(tickInterval.cb, tickInterval.milli);
+                tickPromise = $interval(tickInterval.cb, $scope.speed);
             }
             $scope.isPlaying = !$scope.isPlaying;
         };

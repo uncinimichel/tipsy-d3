@@ -12,10 +12,17 @@
         <span ng-show="!isPlaying" class="glyphicon glyphicon-play"></span>
     </button>
 </div>
+
+<div class="row" style="margin-top: 20px">
+    <label class="col-md-2">Speed:</label>
+    <slider class="col-lg-10" floor="1" ceiling="3000" step="10" ng-model="speed"></slider>
+</div>
 <div class="tipsyD3 container" d3-game-of-life>
 
 </div>
-
+<div class="row">
+    <label class="col-lg-12">Iteration number: {{iteration}}</label>
+</div>
 
 <div class="footer">
     <p>♥ from the Yeoman team</p></div>

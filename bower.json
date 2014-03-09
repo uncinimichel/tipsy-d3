@@ -11,6 +11,7 @@
     "angular-cookies": "1.2.11",
     "angular-sanitize": "1.2.11",
     "angular-route": "1.2.11",
+    "venturocket-angular-slider":"0.2.4",
     "d3": "3.4.2",
     "d3-grid": "0.1.1",
     "underscore": "1.5.2",
